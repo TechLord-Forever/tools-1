@@ -172,23 +172,38 @@ function RunBrowser([string]$urls, [string]$routesFile, [string]$containerToResu
     $ret.result.container.id
 }
 
+function GetHostName([string] $str) {
+    $str = $str.Trim("""") # trim off quotes if entered with them
+    $url = ([System.Uri]$str)
+    if(-not $url.AbsoluteUri) {
+        # wasn't a valid url, so let's try something easy to see if we can make one
+        $url = ([System.Uri]"http://$str")
+        if(-not $url.AbsoluteUri) {
+            Write-Error """$str"" is not a valid url"
+            return ""
+        }
+    }
 
-
-
-
-# use temp file if we didn't specify one
-$tempFile = ""
-if(-not $routesFile) {
-    $tempFile = [System.IO.Path]::GetTempFileName()
-    $routesFile = $tempFile
+    $url.Host -replace '^www\.'
 }
+
+
 
 try {
     # initialize routes file
     $routesToAdd = @()
     ForEach ($url in $urls) {
-        $hostname = ([System.Uri]$url).Host -replace '^www\.'
-        $routesToAdd += ,"*.$hostname"
+        $hostname = GetHostName($url)
+        if($hostname) {
+            $routesToAdd += ,"*.$hostname"
+        }
+    }
+    
+    # use temp file if we didn't specify one
+    $tempFile = ""
+    if(-not $routesFile) {
+        $tempFile = [System.IO.Path]::GetTempFileName()
+        $routesFile = $tempFile
     }
 
     BuildRouteFile $routesFile $routesToAdd
@@ -215,7 +230,7 @@ try {
 }
 finally {
     # clean up
-    if($tempFile) {
+    if(Test-Path $tempFile) {
         Remove-Item $tempFile
     }
 }
