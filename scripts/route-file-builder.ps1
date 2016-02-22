@@ -125,7 +125,7 @@ function BuildRouteFile([string]$routeFile, [string[]]$unblock, [string[]]$block
         ForEach ($ip in $list) {
             Add-Content $routeFile $ip
         }
-        Add-Content $routeFile "`n"
+        Add-Content $routeFile ""
     }
 }
 
@@ -191,6 +191,7 @@ function GetHostName([string] $str) {
 try {
     # initialize routes file
     $routesToAdd = @()
+    $routesToBlock = @("0.0.0.0")
     ForEach ($url in $urls) {
         $hostname = GetHostName($url)
         if($hostname) {
@@ -204,23 +205,23 @@ try {
         $tempFile = [System.IO.Path]::GetTempFileName()
         $routesFile = $tempFile
     }
-
-    BuildRouteFile $routesFile $routesToAdd "0.0.0.0"
-
+    
     # loop until we find everything we need to unblock
     $container = ""
     $continue = "n"
     while(-not $continue.StartsWith("y")) {
+        BuildRouteFile $routesFile $routesToAdd $routesToBlock
+
         Write-Host "Running browser..."
         $container = RunBrowser $urls $routesFile $container
 
         $blocked = GetBlocked $container
         $routesToAdd += $blocked
 
-        BuildRouteFile $routesFile $routesToAdd
-
         $continue = (Read-Host -Prompt "Did everything work correctly? (y/n)").ToLower()
     }
+
+    Write-Host ""
 
     # output temp file to console if we didn't have a file specified
     if($tempFile) {
