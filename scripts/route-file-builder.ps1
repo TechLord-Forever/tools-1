@@ -134,7 +134,9 @@ function MergeRouteFileSection([hashtable]$routes, [string]$section, [string[]]$
     if($routes.ContainsKey($section)) {
         $list = $routes."$section"
     }
-    $new.ForEach({$list += ,$_})
+    ForEach($n in $new) {
+        $list += ,$n
+    }
     $list = $list | select -Unique
     $routes.set_item($section, $list)
 }
