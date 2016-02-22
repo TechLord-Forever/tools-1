@@ -151,7 +151,6 @@ function RunBrowser([string]$urls, [string]$routesFile, [string]$containerToResu
     $params += ,"--format=json"
     $params += ,"--diagnostic"
 
-    $params += ,"--route-block=ip" # todo: need to be able to put this block rule in the file itself
     $params += ,"--route-file=`"$routesFile`""
 
     $params += ,"--"
@@ -206,7 +205,7 @@ try {
         $routesFile = $tempFile
     }
 
-    BuildRouteFile $routesFile $routesToAdd
+    BuildRouteFile $routesFile $routesToAdd "0.0.0.0"
 
     # loop until we find everything we need to unblock
     $container = ""
