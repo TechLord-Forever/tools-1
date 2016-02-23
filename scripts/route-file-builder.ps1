@@ -25,7 +25,7 @@ An array of urls that need to be tested.
 
 .PARAMETER routesFile
 
-A path to a file which will recieve the routes file data. If not specified, the data will be written to the console and can be redirect to a file at that time.
+A path to a file which will receive the routes file data. If not specified, the data will be written to the console and can be redirect to a file at that time.
 
 #>
 
@@ -34,7 +34,7 @@ param
 (
     [Parameter(Mandatory=$True,ValueFromPipeline=$False,ValueFromPipelineByPropertyName=$False,HelpMessage="The starter urls")]
     [string[]] $urls,
-    [Parameter(Mandatory=$False,ValueFromPipeline=$False,ValueFromPipelineByPropertyName=$False,HelpMessage="The file to recieve the routes information")]
+    [Parameter(Mandatory=$False,ValueFromPipeline=$False,ValueFromPipelineByPropertyName=$False,HelpMessage="The file to receive the routes information")]
     [string] $routesFile
 )
 
