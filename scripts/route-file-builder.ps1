@@ -23,7 +23,7 @@ Requires the Turbo.net client to be installed.
 
 An array of urls that need to be tested.
 
-.PARAMETER routesFile
+.PARAMETER routeFile
 
 A path to a file which will receive the routes file data. If not specified, the data will be written to the console and can be redirect to a file at that time.
 
@@ -35,7 +35,7 @@ param
     [Parameter(Mandatory=$True,ValueFromPipeline=$False,ValueFromPipelineByPropertyName=$False,HelpMessage="The starter urls")]
     [string[]] $urls,
     [Parameter(Mandatory=$False,ValueFromPipeline=$False,ValueFromPipelineByPropertyName=$False,HelpMessage="The file to receive the routes information")]
-    [string] $routesFile
+    [string] $routeFile
 )
 
 # returns a list of blocked hosts/ips to unblock.
@@ -142,7 +142,7 @@ function MergeRouteFileSection([hashtable]$routes, [string]$section, [string[]]$
 }
 
 # runs a browser with the defined routes. returns the container id.
-function RunBrowser([string]$urls, [string]$routesFile, [string]$containerToResume, [string]$browser = "firefox") {
+function RunBrowser([string]$urls, [string]$routeFile, [string]$containerToResume, [string]$browser = "firefox") {
     if(-not $containerToResume) {
         $params = ,"new $browser"
     }
@@ -153,7 +153,7 @@ function RunBrowser([string]$urls, [string]$routesFile, [string]$containerToResu
     $params += ,"--format=json"
     $params += ,"--diagnostic"
 
-    $params += ,"--route-file=`"$routesFile`""
+    $params += ,"--route-file=`"$routeFile`""
 
     $params += ,"--"
     ForEach ($url in $urls) {
@@ -203,19 +203,19 @@ try {
     
     # use temp file if we didn't specify one
     $tempFile = ""
-    if(-not $routesFile) {
+    if(-not $routeFile) {
         $tempFile = [System.IO.Path]::GetTempFileName()
-        $routesFile = $tempFile
+        $routeFile = $tempFile
     }
     
     # loop until we find everything we need to unblock
     $container = ""
     $continue = "n"
     while(-not $continue.StartsWith("y")) {
-        BuildRouteFile $routesFile $routesToAdd $routesToBlock
+        BuildRouteFile $routeFile $routesToAdd $routesToBlock
 
         Write-Host "Running browser..."
-        $container = RunBrowser $urls $routesFile $container
+        $container = RunBrowser $urls $routeFile $container
 
         $blocked = GetBlocked $container
         $routesToAdd += $blocked
@@ -232,7 +232,7 @@ try {
 }
 finally {
     # clean up
-    if(Test-Path $tempFile) {
+    if($tempFile -and $(Test-Path $tempFile)) {
         Remove-Item $tempFile
     }
 }
