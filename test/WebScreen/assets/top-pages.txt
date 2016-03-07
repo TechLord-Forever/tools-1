@@ -29,7 +29,6 @@ google.co.uk
 360.cn
 google.ru
 pinterest.com
-t.co
 google.com.br
 reddit.com
 netflix.com
@@ -41,13 +40,11 @@ microsoft.com
 wordpress.com
 blogspot.com
 google.it
-onclickads.net
 google.es
 tumblr.com
 imgur.com
 ok.ru
 gmw.cn
-xvideos.com
 aliexpress.com
 apple.com
 imdb.com
@@ -62,7 +59,6 @@ google.ca
 office.com
 google.com.tr
 rakuten.co.jp
-pornhub.com
 xinhuanet.com
 google.co.id
 soso.com
@@ -74,11 +70,8 @@ amazon.in
 nicovideo.jp
 amazon.co.uk
 kat.cr
-outbrain.com
 bongacams.com
-adnetworkperformance.com
 haosou.com
-googleusercontent.com
 go.com
 cnn.com
 360.com
@@ -89,7 +82,6 @@ google.com.au
 adobe.com
 jd.com
 Naver.com
-xhamster.com
 flipkart.com
 microsoftonline.com
 whatsapp.com
