@@ -69,7 +69,10 @@ function GetBlocked([string]$container) {
                 $ip = $matches[1]
                 if($hostmap.ContainsKey($ip)) {
                     # resolve the ip to a host if we know what it is
-                    $ip = $hostmap."$ip"
+                    $hostorip = $hostmap."$ip"
+                    if ([System.Uri]::CheckHostName($hostorip) -ne 'Unknown') {
+                        $ip = $hostorip
+                    }
                 }
                 $blocked += ,$ip
             }
