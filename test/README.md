@@ -1,7 +1,7 @@
 # Test tools
 
 ### WebScreen
-Console applicatino to test network route layers. Takes the list of web pages to visit and grabs their screenshots for manual review. Web pages are browsed using mozilla/firefox-base image combined with routes layer image under test.
+Console application to test network route layers. Takes the list of web pages to visit and grabs their screenshots for manual review. Web pages are browsed using mozilla/firefox-base image combined with routes layer image under test.
 
 ###### Example 1
 Print help
